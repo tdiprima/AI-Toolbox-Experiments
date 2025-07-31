@@ -1,10 +1,9 @@
 Here's a step-by-step guide to set up two agents in [AutoGen](https://github.com/microsoft/autogen) (by Microsoft) for your scenario: one agent to generate Python code for a sorting algorithm (e.g., quicksort), and another agent to test and critique it. This simulates a mini dev team, with a conversation loop where the code is generated, tested, and improved.
 
-**Assumptions:**
+### Assumptions
 
 - You have installed `pyautogen` (`pip install pyautogen`)
 - You have OpenAI API access (or similar LLM backend)
-- You are familiar with Python basics
 
 ## 1. Basic AutoGen Setup
 
@@ -16,17 +15,17 @@ from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
 config_list = [
     {
         "model": "gpt-4o",
-        "api_key": "YOUR_OPENAI_API_KEY"
+        "api_key": os.getenv("OPENAI_API_KEY")
     }
 ]
 ```
 
 ## 2. Define the Agents
 
-**Agent 1: code\_gen_agent**  
+### Agent 1: code\_gen_agent
 This agent generates Python code for a sorting algorithm.
 
-**Agent 2: tester\_agent**  
+### Agent 2: tester\_agent
 This agent tests the code, critiques it, and suggests improvements.
 
 ```python
@@ -76,7 +75,7 @@ user_proxy.initiate_chat(
 )
 ```
 
-**Note:**
+### Note
 
 - The conversation will go: Orchestrator → CodeGenAgent → TesterAgent → CodeGenAgent (if improvements needed), etc.
 - You can adjust `max_turns` to control how many back-and-forths happen.
@@ -92,7 +91,5 @@ user_proxy.initiate_chat(
 - You can further customize the agents' system messages for more sophistication.
 - For more advanced loops, you can use [GroupChat](https://github.com/microsoft/autogen/blob/main/notebook/groupchat.ipynb) in AutoGen.
 - You can extend this to more agents (e.g., a documentation agent).
-
-**More advanced setup = using GroupChat or custom agent classes!**
 
 <br>

@@ -6,7 +6,6 @@ Here's how you can build a FastAPI app with an endpoint `/refactor` that takes a
 pip install fastapi uvicorn openai
 ```
 
-**Explanation**:  
 This installs the necessary packages:
 
 * `fastapi`: The web framework.
@@ -27,8 +26,6 @@ app = FastAPI()
 openai.api_key = os.getenv("OPENAI_API_KEY")  # Use env variable for security
 ```
 
-**Explanation**:
-
 * Creates a FastAPI app instance.
 * Uses `os.getenv` to fetch your OpenAI key from the environment. You *can* hardcode it while testing, but environment variables are safer and more flexible.
 
@@ -44,8 +41,6 @@ class RefactorResponse(BaseModel):
     refactored_code: str
     explanation: str
 ```
-
-**Explanation**:
 
 * `RefactorRequest` defines the shape of the incoming JSON: code string and an optional language (defaults to Python).
 * `RefactorResponse` shapes the outgoing response with original, refactored code, and a GPT-generated explanation.
@@ -82,8 +77,6 @@ async def refactor_code_with_gpt(code: str, language: str):
     return refactored_code, explanation
 ```
 
-**Explanation**:
-
 * Builds a prompt asking GPT to refactor and explain the input code.
 * Uses `aclient.chat.completions.create` (✅ async version) to send it to OpenAI's chat model.
 * Uses regex to pull out the refactored code from triple backticks and treat the rest as explanation. This assumes GPT formats output reasonably. Tweak this if the model's response is inconsistent.
@@ -110,9 +103,7 @@ async def refactor_endpoint(req: RefactorRequest):
     )
 ```
 
-**Explanation**:
-
-* Validates that `code` isn’t empty.
+* Validates that `code` isn't empty.
 * Calls the async refactor function to get new code + explanation.
 * Returns it wrapped in the `RefactorResponse` model.
 * If something fails, throws a 500 error with a clear message.
@@ -123,7 +114,6 @@ async def refactor_endpoint(req: RefactorRequest):
 uvicorn your_filename:app --reload
 ```
 
-**Explanation**:
 This launches your FastAPI app using `uvicorn`.
 
 * Replace `your_filename` with the name of your Python script (without `.py`).
