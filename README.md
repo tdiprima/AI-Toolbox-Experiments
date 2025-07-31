@@ -14,7 +14,7 @@ A REST API service that leverages OpenAI's models to automatically refactor code
 
 ### Gradio Sentiment Analysis UI
 **[gradio-sentiment-ui/](./gradio-sentiment-ui/)**  
-A web-based sentiment analysis tool built with Gradio and Hugging Face transformers. Analyze text emotions through a simple interface with downloadable CSV results. *(Note: This is currently a work in progress with some compatibility challenges)*
+A web-based sentiment analysis tool built with Gradio and Hugging Face transformers. Analyze text emotions through a simple interface with downloadable CSV results.
 
 ### Haystack Document Q&A
 **[haystack-doc-qa/](./haystack-doc-qa/)**  
