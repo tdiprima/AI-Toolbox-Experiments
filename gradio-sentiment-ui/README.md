@@ -1,3 +1,12 @@
+## TL;DR
+It doesn't work.  No incantation of different versions of modules can get the python script to work.
+
+[ERROR: Exception in ASGI application](https://github.com/gradio-app/gradio/issues/10662)
+
+[Gradio Space Crashing on Startup - TypeError: argument of type ‘bool’ is not iterable](https://discuss.huggingface.co/t/gradio-space-crashing-on-startup-typeerror-argument-of-type-bool-is-not-iterable/154601/4)
+
+## If you're curious
+
 Okay, so here’s the deal — let’s build a chill little web app that can tell you whether your text sounds happy, sad, angry, whatever — using a sentiment analysis model. And we’re gonna wrap the whole thing up in a super simple UI using **Gradio**, so anyone can just type something in and see what the model thinks.
 
 Here’s how it all comes together:
