@@ -1,98 +1,103 @@
-Here's a step-by-step guide for:
+### 🔊 Transcribe + Summarize Podcast Audio using PyDub, Whisper, and GPT
 
-**Transcribing a podcast, segmenting with PyDub, and summarizing action items with an LLM (like OpenAI's GPT-3.5/4).**
+This guide walks you through:
 
-## 1. **Install Required Libraries**
+* Splitting a podcast into chunks with **PyDub**
+* Transcribing each chunk using **Whisper**
+* Summarizing transcripts into action items using an **LLM** (like GPT-4)
 
-You'll need:
+## 🧱 1. Install Dependencies
 
-- `pydub` for audio segmentation
-- `openai-whisper` for transcription
-- `openai` for LLM summarization (or another LLM API)
-- `ffmpeg` (PyDub and Whisper require it)
+You’ll need the following:
+
+* [`pydub`](https://github.com/jiaaro/pydub): for audio processing
+* [`openai-whisper`](https://github.com/openai/whisper): for transcription
+* [`openai`](https://github.com/openai/openai-python): to call GPT models
+* **`ffmpeg`**: required by PyDub and Whisper to handle audio formats
+
+Install everything with:
 
 ```bash
 pip install pydub openai-whisper openai
-# Install ffmpeg separately, e.g.
-# On Ubuntu: sudo apt-get install ffmpeg
-# On Mac: brew install ffmpeg
+
+# Plus ffmpeg (required for mp3 processing):
+# macOS:   brew install ffmpeg
+# Ubuntu:  sudo apt install ffmpeg
 ```
 
-## 2. **Segment the Audio with PyDub**
-
-Let's say you want to split the podcast into 5-minute chunks:
+## ✂️ 2. Split the Podcast into Chunks (e.g. 5-minute segments)
 
 ```python
 from pydub import AudioSegment
 
 audio = AudioSegment.from_file("podcast.mp3")
-segment_length_ms = 5 * 60 * 1000  # 5 minutes in milliseconds
+segment_length_ms = 5 * 60 * 1000  # 5 minutes converted to milliseconds
 
 segments = []
+
 for i in range(0, len(audio), segment_length_ms):
+    # Slice the audio: get a 5-minute chunk from position i
     segment = audio[i:i+segment_length_ms]
-    segment.export(f"segment_{i//segment_length_ms}.mp3", format="mp3")
-    segments.append(f"segment_{i//segment_length_ms}.mp3")
+
+    # Export that chunk to a new MP3 file
+    filename = f"segment_{i // segment_length_ms}.mp3"
+    segment.export(filename, format="mp3")
+
+    # Keep track of the filename so we can process it later
+    segments.append(filename)
 ```
 
-## 3. **Transcribe Each Segment with Whisper**
+### 🧠 What’s going on?
+
+* `audio[i:i+segment_length_ms]`: This slices the audio just like slicing a list or string. It grabs a chunk starting at millisecond `i`, ending at `i + segment_length_ms`.
+* `segment.export(...)`: Saves the sliced chunk as its own `.mp3` file.
+* `i // segment_length_ms`: This gives the segment number (e.g. 0, 1, 2...) by integer-dividing the current millisecond offset by the segment length. Used to name each chunk like `segment_0.mp3`, `segment_1.mp3`, etc.
+
+## 🧾 3. Transcribe Each Segment with Whisper
 
 ```python
 import whisper
 
-model = whisper.load_model("base")  # or "small", "medium", "large"
+model = whisper.load_model("base")  # you can also try "small", "medium", or "large"
 
 transcripts = []
+
 for segment_path in segments:
     result = model.transcribe(segment_path)
     transcripts.append(result['text'])
 ```
 
-## 4. **Summarize Transcripts into Task Lists with LLM**
+Each MP3 segment gets transcribed. Whisper gives back a dictionary, and `result['text']` contains the transcript string for that chunk.
 
-Using OpenAI's GPT:
+## ✍️ 4. Summarize Transcripts into Action Items (with GPT)
 
 ```python
 from openai import OpenAI
+import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def summarize_action_items(transcript):
+def summarize_action_items(text):
     prompt = (
-        "Extract and summarize all key action items from the following transcript. "
-        "Return them as a concise, bulleted task list. If there are no action items, say 'No action items.'\n\n"
-        f"Transcript:\n{transcript}"
+        "Summarize the following meeting transcript into a list of key action items:\n\n"
+        f"{text}"
     )
-    response = client.chat.completions.create(model="gpt-4o",
-    messages=[{"role": "user", "content": prompt}],
-    max_tokens=300,
-    temperature=0.2)
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}]
+    )
     return response.choices[0].message.content
 
-all_action_items = []
-for transcript in transcripts:
-    action_items = summarize_action_items(transcript)
-    all_action_items.append(action_items)
+summaries = [summarize_action_items(t) for t in transcripts]
 ```
 
-## 5. **Output the Results**
+### Notes:
 
-```python
-for idx, action_items in enumerate(all_action_items):
-    print(f"Segment {idx+1} action items:\n{action_items}\n")
-```
+* This assumes you’ve set your `OPENAI_API_KEY` in your environment variables.
+* You can adjust the prompt or summarization style to match your needs (e.g., bullet points, formal write-up, TODO list, etc).
 
-## **Summary**
+## ✅ Output
 
-1. **Segment**: Use PyDub to split the audio.
-2. **Transcribe**: Use Whisper to transcribe each segment.
-3. **Summarize**: Use an LLM to extract and format action items.
-
-### **Tips**
-
-- Adjust `segment_length_ms` as needed.
-- You can refine the LLM prompt for better results.
-- For long podcasts, consider Whisper's larger models for accuracy.
-- If you want to process the whole podcast at once, skip segmentation.
+You’ll end up with a list of summary strings for each chunk of the podcast. From there, you can combine them, format into Markdown, or feed them into another system like Notion or Slack.
 
 <br>
