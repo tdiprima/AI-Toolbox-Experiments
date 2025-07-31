@@ -3,6 +3,7 @@ podcast.mp3
 cache/
 exports/
 tech_blogs/
+flagged/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
