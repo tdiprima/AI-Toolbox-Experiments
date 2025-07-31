@@ -1,0 +1,13 @@
+# Core Haystack dependencies
+haystack-ai>=2.0.0
+farm-haystack>=1.20.0
+
+# PDF processing
+reportlab>=4.0.0
+
+# OpenAI integration
+openai>=1.0.0
+
+pydantic>=2.0
+
+pypdf
