@@ -1,3 +1,5 @@
+**See:** [sentiment_analysis.py](sentiment_analysis.py)
+
 Okay, so here's the deal — let's build a chill little web app that can tell you whether your text sounds happy, sad, angry, whatever — using a sentiment analysis model. And we're gonna wrap the whole thing up in a super simple UI using **Gradio**, so anyone can just type something in and see what the model thinks.
 
 Here's how it all comes together:
