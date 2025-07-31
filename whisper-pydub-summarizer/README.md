@@ -8,7 +8,7 @@ This guide walks you through:
 
 ## 🧱 1. Install Dependencies
 
-You’ll need the following:
+You'll need the following:
 
 * [`pydub`](https://github.com/jiaaro/pydub): for audio processing
 * [`openai-whisper`](https://github.com/openai/whisper): for transcription
@@ -47,7 +47,7 @@ for i in range(0, len(audio), segment_length_ms):
     segments.append(filename)
 ```
 
-### 🧠 What’s going on?
+### 🧠 What's going on?
 
 * `audio[i:i+segment_length_ms]`: This slices the audio just like slicing a list or string. It grabs a chunk starting at millisecond `i`, ending at `i + segment_length_ms`.
 * `segment.export(...)`: Saves the sliced chunk as its own `.mp3` file.
@@ -93,11 +93,11 @@ summaries = [summarize_action_items(t) for t in transcripts]
 
 ### Notes:
 
-* This assumes you’ve set your `OPENAI_API_KEY` in your environment variables.
+* This assumes you've set your `OPENAI_API_KEY` in your environment variables.
 * You can adjust the prompt or summarization style to match your needs (e.g., bullet points, formal write-up, TODO list, etc).
 
 ## ✅ Output
 
-You’ll end up with a list of summary strings for each chunk of the podcast. From there, you can combine them, format into Markdown, or feed them into another system like Notion or Slack.
+You'll end up with a list of summary strings for each chunk of the podcast. From there, you can combine them, format into Markdown, or feed them into another system like Notion or Slack.
 
 <br>
