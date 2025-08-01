@@ -1,3 +1,5 @@
+`haystack_pdf_qa.py`
+
 ## Q\&A Bot for Tech Blog PDFs using Haystack
 
 [Haystack](https://haystack.deepset.ai/) is an open-source NLP framework that makes it easy to build production-ready search systems and intelligent agents. In this example, you'll use Haystack to build a **Q\&A bot** that indexes a folder of technical blog PDFs and lets you ask natural language questions like:
