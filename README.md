@@ -32,6 +32,9 @@ Natural language data analysis using PandasAI. Query datasets in plain English a
 **[whisper-pydub-summarizer/](./whisper-pydub-summarizer/)**  
 Audio processing pipeline that segments podcasts, transcribes content using OpenAI Whisper, and generates summaries with action items using GPT models.
 
+## Explaining READMEs
+Courtesy of ChatGPT
+
 ## 🚀 Getting Started
 
 Each project contains its own README with detailed setup instructions and usage examples. Most experiments require:

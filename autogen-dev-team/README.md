@@ -1,4 +1,6 @@
-Here's a step-by-step guide to set up two agents in [AutoGen](https://github.com/microsoft/autogen) (by Microsoft) for your scenario: one agent to generate Python code for a sorting algorithm (e.g., quicksort), and another agent to test and critique it. This simulates a mini dev team, with a conversation loop where the code is generated, tested, and improved.
+`create_sorting_algorithm.py`
+
+Here's a step-by-step guide to set up two agents in [AutoGen](https://microsoft.github.io/autogen/stable//index.html) (by Microsoft) for your scenario: one agent to generate Python code for a sorting algorithm (e.g., quicksort), and another agent to test and critique it. This simulates a mini dev team, with a conversation loop where the code is generated, tested, and improved.
 
 ### Assumptions
 
