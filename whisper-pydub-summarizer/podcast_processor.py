@@ -1,3 +1,8 @@
+"""
+Podcast Transcription and Action Item Extraction Script
+PyDub handles audio loading, manipulation, and splitting, while
+whisper is used for transcription.
+"""
 from pydub import AudioSegment
 import whisper
 from openai import OpenAI
@@ -34,7 +39,7 @@ def summarize_action_items(transcript):
         "Return them as a concise, bulleted task list. If there are no action items, say 'No action items.'\n\n"
         f"Transcript:\n{transcript}"
     )
-    response = client.chat.completions.create(model="gpt-4o",
+    response = client.chat.completions.create(model="gpt-4o-mini",
     messages=[{"role": "user", "content": prompt}],
     max_tokens=300,
     temperature=0.2)

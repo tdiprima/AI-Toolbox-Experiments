@@ -1,19 +1,21 @@
+`podcast_processor.py`
+
 ### 🔊 Transcribe + Summarize Podcast Audio using PyDub, Whisper, and GPT
 
 This guide walks you through:
 
 * Splitting a podcast into chunks with **PyDub**
 * Transcribing each chunk using **Whisper**
-* Summarizing transcripts into action items using an **LLM** (like GPT-4)
+* Summarizing transcripts into action items using an **LLM** (like GPT)
 
 ## 🧱 1. Install Dependencies
 
 You'll need the following:
 
-* [`pydub`](https://github.com/jiaaro/pydub): for audio processing
-* [`openai-whisper`](https://github.com/openai/whisper): for transcription
-* [`openai`](https://github.com/openai/openai-python): to call GPT models
-* **`ffmpeg`**: required by PyDub and Whisper to handle audio formats
+* [**`pydub`**](https://github.com/jiaaro/pydub): for audio processing
+* [**`openai-whisper`**](https://github.com/openai/whisper): for transcription
+* [**`openai`**](https://github.com/openai/openai-python): to call GPT models
+* [**`ffmpeg`**](https://ffmpeg.org/): required by PyDub and Whisper to handle audio formats
 
 Install everything with:
 
@@ -83,7 +85,7 @@ def summarize_action_items(text):
         f"{text}"
     )
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
     )
     return response.choices[0].message.content
