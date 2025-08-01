@@ -6,7 +6,7 @@ from langchain.docstore.document import Document
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 from langchain_openai import OpenAI
-from datetime import datetime
+from datetime import datetime, timezone
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENWEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
@@ -31,7 +31,8 @@ def store_forecasts_in_faiss(forecasts, city):
     """
     docs = []
     for forecast in forecasts:
-        dt = datetime.utcfromtimestamp(forecast['dt']).strftime('%Y-%m-%d %H:%M')
+        # dt = datetime.utcfromtimestamp(forecast['dt']).strftime('%Y-%m-%d %H:%M')  # Deprecated in Python 3.12
+        dt = datetime.fromtimestamp(forecast['dt'], tz=timezone.utc).strftime('%Y-%m-%d %H:%M')
         temp = forecast['main']['temp']
         weather = forecast['weather'][0]['description']
         doc = Document(
