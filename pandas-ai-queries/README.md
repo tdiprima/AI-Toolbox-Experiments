@@ -1,4 +1,6 @@
-So, this script &mdash; `sales_analysis.py`? It's basically your cheat code for exploring sales data *with vibes* — using natural language thanks to PandasAI. No more drowning in spreadsheets or writing 10 lines of code just to answer one question. Here's the lowdown:
+`sales_analysis.py`
+
+So, this script? It's basically your cheat code for exploring sales data *with vibes* — using natural language thanks to [PandasAI](https://pandas-ai.com/). No more drowning in spreadsheets or writing 10 lines of code just to answer one question. Here's the lowdown:
 
 ## 🧠 What This Script Does
 
@@ -36,33 +38,26 @@ It either:
 
 1. **Install the stuff**
 
-```bash
-pip install pandas numpy matplotlib seaborn pandasai openai
-```
+   ```bash
+   pip install pandas numpy matplotlib seaborn pandasai openai
+   ```
 
 2. **Set your OpenAI API key**
-   Replace this:
 
-```python
-"your-openai-api-key-here"
-```
-
-Or do it like a real terminal gremlin:
-
-```bash
-export OPENAI_API_KEY="your-key"
-```
+   ```bash
+   export OPENAI_API_KEY="your-key"
+   ```
 
 3. **Get your data ready**
 
-* Got a CSV? Cool, just drop it in.
-* No data? The script's got your back with fake but realistic data.
+   * Got a CSV? Cool, just drop it in.
+   * No data? The script's got your back with fake but realistic data.
 
 4. **Run it like a boss**
 
-```bash
-python sales_analysis.py
-```
+   ```bash
+   python sales_analysis.py
+   ```
 
 ## 🔍 Key PandasAI Magic
 
@@ -73,7 +68,7 @@ agent = Agent(df, config={"llm": llm})
 response = agent.chat("Which product has the highest seasonal variance?")
 ```
 
-Yup. That's it. Ask questions like you would in a Slack message. It answers like an analyst with caffeine and no PTO (paid time off).
+Yup. That's it. Ask questions like you would in a Slack message. It answers like an analyst with caffeine and no PTO.
 
 ## 🧾 What It Actually Does Behind The Scenes
 
