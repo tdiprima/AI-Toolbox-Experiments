@@ -1,6 +1,6 @@
-**See:** [sentiment_analysis.py](sentiment_analysis.py)
+`sentiment_analysis.py`
 
-Okay, so here's the deal — let's build a chill little web app that can tell you whether your text sounds happy, sad, angry, whatever — using a sentiment analysis model. And we're gonna wrap the whole thing up in a super simple UI using **Gradio**, so anyone can just type something in and see what the model thinks.
+Okay, so here's the deal — let's build a chill little web app that can tell you whether your text sounds happy, sad, angry, whatever — using a sentiment analysis model. And we're gonna wrap the whole thing up in a super simple UI using [**Gradio**](https://www.gradio.app/), so anyone can just type something in and see what the model thinks.
 
 Here's how it all comes together:
 
@@ -20,10 +20,8 @@ Here's how it all comes together:
    * You can also download a CSV file with the results, in case you're doing some bigger analysis or just want to save it.
 
 5. **Finally, we hit launch**:  
-   This spins up a local web page where the app runs, so you (or anyone else) can play with it right away — no installs or tech headaches.
+   This spins up a [local web page](http://127.0.0.1:7860/) where the app runs, so you (or anyone else) can play with it right away — no installs or tech headaches.
 
 So yeah — in like 30–40 lines of Python, you've got a working mini web app that analyzes mood and gives you a file with the results. Cool, right?
-
-The app runs on: http://127.0.0.1:7860/
 
 <br>
