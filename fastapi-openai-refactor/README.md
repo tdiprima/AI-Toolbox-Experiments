@@ -1,4 +1,6 @@
-Here's how you can build a FastAPI app with an endpoint `/refactor` that takes a code snippet, uses OpenAI to refactor it for efficiency, and returns both the original and the refactored code with explanations.
+`myapp.py`
+
+Here's how you can build a [FastAPI](https://fastapi.tiangolo.com/) app with an endpoint `/refactor` that takes a code snippet, uses OpenAI to refactor it for efficiency, and returns both the original and the refactored code with explanations.
 
 ## 1. Install dependencies
 
