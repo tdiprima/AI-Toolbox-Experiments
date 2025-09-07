@@ -4,9 +4,10 @@ Create a test podcast MP3 file with clear action items for testing the transcrip
 """
 
 try:
+    pass
+
     from gtts import gTTS
-    import random
-    
+
     # Create a realistic podcast script with multiple segments and action items
     podcast_script = """
     Welcome to the Tech Leadership Podcast, episode 47. I'm your host, and today we're discussing 
@@ -39,11 +40,13 @@ try:
 
     # Create the MP3 file
     print("Creating test podcast MP3 file...")
-    tts = gTTS(text=podcast_script, lang='en', slow=False)
+    tts = gTTS(text=podcast_script, lang="en", slow=False)
     tts.save("podcast.mp3")
     print("✅ Successfully created 'podcast.mp3'")
-    print(f"File contains a ~2 minute podcast with multiple clear action items for testing.")
-    
+    print(
+        "File contains a ~2 minute podcast with multiple clear action items for testing."
+    )
+
 except ImportError:
     print("❌ Error: gTTS not installed.")
     print("Please install it with: pip install gtts")

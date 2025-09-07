@@ -1,10 +1,10 @@
 # uvicorn myapp:app --reload
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-from openai import AsyncOpenAI
 import os
 import re
+
+from fastapi import FastAPI, HTTPException
+from openai import AsyncOpenAI
+from pydantic import BaseModel
 
 aclient = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -29,13 +29,15 @@ async def refactor_code_with_gpt(code: str, language: str):
         f"Original code:\n{code}\n\nRefactored code with explanation:"
     )
 
-    response = await aclient.chat.completions.create(model="gpt-4o",
-    messages=[
-        {"role": "system", "content": "You are an expert software engineer."},
-        {"role": "user", "content": prompt}
-    ],
-    temperature=0.2,
-    max_tokens=800)
+    response = await aclient.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are an expert software engineer."},
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0.2,
+        max_tokens=800,
+    )
 
     content = response.choices[0].message.content
 
@@ -58,7 +60,5 @@ async def refactor_endpoint(req: RefactorRequest):
         raise HTTPException(status_code=500, detail="Failed to refactor code.")
 
     return RefactorResponse(
-        original_code=req.code,
-        refactored_code=refactored_code,
-        explanation=explanation
+        original_code=req.code, refactored_code=refactored_code, explanation=explanation
     )

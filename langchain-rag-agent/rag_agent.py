@@ -1,12 +1,12 @@
 import os
-import requests
-from langchain_community.vectorstores import FAISS
-from langchain_openai import OpenAIEmbeddings
-from langchain.docstore.document import Document
-from langchain.chains import ConversationalRetrievalChain
-from langchain.memory import ConversationBufferMemory
-from langchain_openai import OpenAI
 from datetime import datetime, timezone
+
+import requests
+from langchain.chains import ConversationalRetrievalChain
+from langchain.docstore.document import Document
+from langchain.memory import ConversationBufferMemory
+from langchain_community.vectorstores import FAISS
+from langchain_openai import OpenAI, OpenAIEmbeddings
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENWEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
@@ -21,7 +21,7 @@ def fetch_weather_forecast(city, api_key):
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}"
     resp = requests.get(url)
     data = resp.json()
-    return data['list']
+    return data["list"]
 
 
 def store_forecasts_in_faiss(forecasts, city):
@@ -32,12 +32,14 @@ def store_forecasts_in_faiss(forecasts, city):
     docs = []
     for forecast in forecasts:
         # dt = datetime.utcfromtimestamp(forecast['dt']).strftime('%Y-%m-%d %H:%M')  # Deprecated in Python 3.12
-        dt = datetime.fromtimestamp(forecast['dt'], tz=timezone.utc).strftime('%Y-%m-%d %H:%M')
-        temp = forecast['main']['temp']
-        weather = forecast['weather'][0]['description']
+        dt = datetime.fromtimestamp(forecast["dt"], tz=timezone.utc).strftime(
+            "%Y-%m-%d %H:%M"
+        )
+        temp = forecast["main"]["temp"]
+        weather = forecast["weather"][0]["description"]
         doc = Document(
             page_content=f"Date: {dt}, City: {city}, Temp: {temp}°C, Weather: {weather}",
-            metadata={"date": dt, "city": city}
+            metadata={"date": dt, "city": city},
         )
         docs.append(doc)
     embeddings = OpenAIEmbeddings()
@@ -53,11 +55,7 @@ def build_agent(vectordb):
     retriever = vectordb.as_retriever()
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
     llm = OpenAI(temperature=0)
-    qa = ConversationalRetrievalChain.from_llm(
-        llm,
-        retriever,
-        memory=memory
-    )
+    qa = ConversationalRetrievalChain.from_llm(llm, retriever, memory=memory)
     return qa
 
 
@@ -69,10 +67,10 @@ if __name__ == "__main__":
 
     # Example multi-step query
     query = "What's the forecast trend for next week? Is it getting warmer or colder?"
-    result = agent.invoke({'question': query})
+    result = agent.invoke({"question": query})
     print(result)
 
     # Follow-up question
     followup = "What about the chance of rain?"
-    result2 = agent.invoke({'question': followup})
+    result2 = agent.invoke({"question": followup})
     print(result2)

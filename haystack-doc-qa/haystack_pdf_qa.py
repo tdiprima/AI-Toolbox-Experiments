@@ -1,14 +1,13 @@
-from haystack import Document, Pipeline
-from haystack.document_stores.in_memory import InMemoryDocumentStore
-from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
-from haystack.components.generators import OpenAIGenerator
+import glob
+
+from haystack import Pipeline
 from haystack.components.builders import PromptBuilder
 from haystack.components.converters import PyPDFToDocument
+from haystack.components.generators import OpenAIGenerator
 from haystack.components.preprocessors import DocumentSplitter
+from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
+from haystack.document_stores.in_memory import InMemoryDocumentStore
 from haystack.utils import Secret
-
-import os
-import glob
 
 # Init Document Store
 document_store = InMemoryDocumentStore()
@@ -32,12 +31,12 @@ document_store.write_documents(docs)
 retriever = InMemoryBM25Retriever(document_store=document_store)
 prompt_builder = PromptBuilder(
     template="Given the following context excerpts from tech blogs, answer the question. Cite the relevant excerpt(s) in your answer.\n\nContext:\n{% for document in documents %}\n{{ document.content }}\n{% endfor %}\n\nQuestion: {{ query }}\n\nAnswer:",
-    required_variables=["documents", "query"]
+    required_variables=["documents", "query"],
 )
 generator = OpenAIGenerator(
     model="gpt-4o",
     api_key=Secret.from_env_var("OPENAI_API_KEY"),
-    generation_kwargs={"temperature": 0.2, "max_tokens": 512}
+    generation_kwargs={"temperature": 0.2, "max_tokens": 512},
 )
 
 # Pipeline
@@ -51,11 +50,8 @@ pipe.connect("prompt_builder", "llm")
 
 query = "What's the best practice for async in Python?"
 result = pipe.run(
-    {
-        "retriever": {"query": query, "top_k": 5},
-        "prompt_builder": {"query": query}
-    },
-    include_outputs_from={"retriever", "prompt_builder", "llm"}
+    {"retriever": {"query": query, "top_k": 5}, "prompt_builder": {"query": query}},
+    include_outputs_from={"retriever", "prompt_builder", "llm"},
 )
 
 # Print answer and sources
